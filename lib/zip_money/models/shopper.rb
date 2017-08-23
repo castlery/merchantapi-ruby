@@ -152,7 +152,7 @@ module ZipMoney
         invalid_properties.push("invalid value for 'last_name', last_name cannot be nil.")
       end
 
-      if !@phone.nil? && @phone !~ Regexp.new(/^\\+?[\\d\\s]+$/)
+      if !@phone.nil? && @phone !~ Regexp.new(/^\+?[\d\s]+$/)
         invalid_properties.push("invalid value for 'phone', must conform to the pattern /^\\+?[\\d\\s]+$/.")
       end
 
@@ -172,7 +172,7 @@ module ZipMoney
     def valid?
       return false if @first_name.nil?
       return false if @last_name.nil?
-      return false if !@phone.nil? && @phone !~ Regexp.new(/^\\+?[\\d\\s]+$/)
+      return false if !@phone.nil? && @phone !~ Regexp.new(/^\+?[\d\s]+$/)
       return false if @email.nil?
       gender_validator = EnumAttributeValidator.new('String', ["Male", "Female", "Other"])
       return false unless gender_validator.valid?(@gender)
@@ -184,7 +184,7 @@ module ZipMoney
     # @param [Object] phone Value to be assigned
     def phone=(phone)
 
-      if !phone.nil? && phone !~ Regexp.new(/^\\+?[\\d\\s]+$/)
+      if !phone.nil? && phone !~ Regexp.new(/^\+?[\d\s]+$/)
         fail ArgumentError, "invalid value for 'phone', must conform to the pattern /^\\+?[\\d\\s]+$/."
       end
 
