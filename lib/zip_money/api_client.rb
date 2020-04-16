@@ -1,4 +1,4 @@
-#Merchant API 
+#Merchant API
 #ZipMoney Merchant API Initial build
 #zipMoney Merchant API version: 2017-03-01
 
@@ -27,7 +27,7 @@ module ZipMoney
       @user_agent = "Swagger-Codegen/#{VERSION}/ruby"
       @default_headers = {
         'Content-Type' => "application/json",
-        'User-Agent' => @user_agent,        
+        'User-Agent' => @user_agent,
         'Zip-Version' => @config.api_version
       }
     end
@@ -147,7 +147,7 @@ module ZipMoney
       return download_file(response) if return_type == 'File'
 
       # ensuring a default content type
-      content_type = response.headers['Content-Type'] || 'application/json'
+      content_type = 'application/json'
 
       fail "Content-Type is not supported: #{content_type}" unless json_mime?(content_type)
 
