@@ -24,7 +24,12 @@ module ZipMoney
     # @option config [Configuration] Configuration for initializing the object, default to Configuration.default
     def initialize(config = Configuration.default)
       @config = config
-      @user_agent = "Swagger-Codegen/#{VERSION}/ruby"
+
+      @user_agent = @config.user_agent
+      if @config.platform
+        @user_agent = @config.platform + "/" + @config.user_agent
+      end
+      
       @default_headers = {
         'Content-Type' => "application/json",
         'User-Agent' => @user_agent,
@@ -42,33 +47,43 @@ module ZipMoney
     #   the data deserialized from response body (could be nil), response status code and response headers.
     def call_api(http_method, path, opts = {})
       request = build_request(http_method, path, opts)
-      response = request.run
-
-      if @config.debugging
-        @config.logger.debug "HTTP response body ~BEGIN~\n#{response.body}\n~END~\n"
+      count = 0
+      @response = nil
+      
+      loop do         
+        # Retry after specified retry interval
+        sleep(@config.retry_interval) if count > 0  && @config.retry_interval > 0
+        @config.logger.debug "Running the request. Count #{count+1}"  if @config.debugging
+        @response = request.run
+        count = count + 1   
+        break if (( count >= @config.num_retries && @response.code == 0 && @response.return_message == "Couldn't connect to server")  || @response.code > 0 || opts[:header_params][:'Idempotency-Key'].nil?)
       end
 
-      unless response.success?
-        if response.timed_out?
+      if @config.debugging
+        @config.logger.debug "HTTP response body ~BEGIN~\n#{@response.body}\n~END~\n"
+      end
+
+      unless @response.success?
+        if @response.timed_out?
           fail ApiError.new('Connection timed out')
-        elsif response.code == 0
+        elsif @response.code == 0
           # Errors from libcurl will be made visible here
           fail ApiError.new(:code => 0,
-                            :message => response.return_message)
+                            :message => @response.return_message)
         else
-          fail ApiError.new(:code => response.code,
-                            :response_headers => response.headers,
-                            :response_body => response.body),
-               response.status_message
+          fail ApiError.new(:code => @response.code,
+                            :response_headers => @response.headers,
+                            :response_body => @response.body),
+          @response.status_message
         end
       end
 
       if opts[:return_type]
-        data = deserialize(response, opts[:return_type])
+        data = deserialize(@response, opts[:return_type])
       else
         data = nil
       end
-      return data, response.code, response.headers
+      return data, @response.code, @response.headers
     end
 
     # Builds the HTTP request
@@ -296,7 +311,7 @@ module ZipMoney
 
     # Sets user agent in HTTP header
     #
-    # @param [String] user_agent User agent (e.g. swagger-codegen/ruby/1.0.0)
+    # @param [String] user_agent User agent (e.g. merchantapi/ruby/1.0.0)
     def user_agent=(user_agent)
       @user_agent = user_agent
       @default_headers['User-Agent'] = @user_agent

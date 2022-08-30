@@ -9,12 +9,12 @@ $:.push File.expand_path("../lib", __FILE__)
 require "zip_money/version"
 
 Gem::Specification.new do |s|
-  s.name        = "zip_money"
+  s.name        = "zipmoney_merchantapi"
   s.version     = ZipMoney::VERSION
   s.platform    = Gem::Platform::RUBY
-  s.authors     = ["Swagger-Codegen"]
-  s.email       = [""]
-  s.homepage    = "https://github.com/swagger-api/swagger-codegen"
+  s.authors     = ["zipMoney Payments"]
+  s.email       = ["sagar.bhandari@zipmoney.com.au"]
+  s.homepage    = "https://github.com/zipMoney/merchantapi-ruby"
   s.summary     = "Merchant API Ruby Gem"
   s.description = "ZipMoney Merchant API Initial build"
   # TODO uncommnet and update below with a proper license 
