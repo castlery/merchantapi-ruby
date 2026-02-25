@@ -1,6 +1,6 @@
 # ZipMoney::TokensApi
 
-All URIs are relative to *https://api.sandbox.zipmoney.com.au/merchant/v1*
+All URIs are relative to *https://sand.merchant-api.com/au/merchant/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
