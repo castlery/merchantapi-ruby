@@ -136,10 +136,10 @@ module ZipMoney
 
     def initialize
       @scheme = 'https'
-      @host = 'api.sandbox.zipmoney.com.au'
-      @supported_environments = {:sandbox => "api.sandbox.zipmoney.com.au",:production => "api.zipmoney.com.au"}
+      @host = 'sand.merchant-api.com'
+      @supported_environments = {:sandbox => "sand.merchant-api.com", :production => "merchant-api.com"}
       @environment = "sandbox"
-      @base_path = '/merchant/v1'
+      @base_path = '/au/merchant/v2'
       @api_key = {}
       @api_key_prefix = {}
       @timeout = 0

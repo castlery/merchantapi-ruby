@@ -10,7 +10,7 @@ describe ZipMoney::Configuration do
   before(:each) do
     # uncomment below to setup host and base_path
     #require 'URI'
-    uri = URI.parse("https://api.sandbox.zipmoney.com.au/merchant/v1")
+    uri = URI.parse("https://sand.merchant-api.com/au/merchant/v2")
 
     ZipMoney.configure do |c|
       c.host = uri.host
@@ -21,7 +21,7 @@ describe ZipMoney::Configuration do
   describe '#base_url' do
     it 'should have the default value' do
       # uncomment below to test default value of the base path
-      expect(config.base_url).to eq("https://api.sandbox.zipmoney.com.au/merchant/v1")
+      expect(config.base_url).to eq("https://sand.merchant-api.com/au/merchant/v2")
     end
 
     # it 'should remove trailing slashes' do
@@ -35,13 +35,13 @@ describe ZipMoney::Configuration do
     it 'should set the sandbox environment' do
       config.environment = :sandbox
       # uncomment below to test trailing slashes
-      expect(config.base_url).to eq("https://api.sandbox.zipmoney.com.au/merchant/v1")
+      expect(config.base_url).to eq("https://sand.merchant-api.com/au/merchant/v2")
     end
     
     it 'should set the production environment' do
       config.environment = :production
       # uncomment below to test trailing slashes
-      expect(config.base_url).to eq("https://api.zipmoney.com.au/merchant/v1")
+      expect(config.base_url).to eq("https://merchant-api.com/au/merchant/v2")
     end
 
   end

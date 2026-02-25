@@ -81,7 +81,7 @@ describe 'ChargesApi' do
           #   "approveRequest": true
           # }
         
-        request = Typhoeus::Request.new("http://e2eapi.sandbox.zipmoney.com.au/merchant/api/v2/UpdateCheckout", approve_req)
+        request = Typhoeus::Request.new("https://sand.merchant-api.com/au/merchant/v2/UpdateCheckout", approve_req)
        # res = request.run
         #p res
         @payload = @payload_helper.charge_request;
